@@ -1453,7 +1453,7 @@ h4 {
 
 .team-card:hover {
     transform: translateY(-10px);
-    border-color: #d4af37;
+    border-color: #e1aa00;
     box-shadow: 0 25px 50px -15px rgba(212, 175, 55, 0.16);
 }
 
