@@ -55,3 +55,18 @@ Route::fallback(function (\Illuminate\Http\Request $request) {
         'seo' => Seo::forRoute('notfound'),
     ])->toResponse($request)->setStatusCode(404);
 });
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/migrate-photo', function () {
+    try {
+        // Очищаем старый кэш конфигурации сервера
+        Artisan::call('config:clear');
+
+        // Запускаем создание таблиц
+        Artisan::call('migrate', ['--force' => true]);
+
+        return 'Ура! Таблицы успешно созданы пользователем photo в базе u3520641_site_db!';
+    } catch (\Exception $e) {
+        return 'Ошибка: ' . $e->getMessage();
+    }
+});

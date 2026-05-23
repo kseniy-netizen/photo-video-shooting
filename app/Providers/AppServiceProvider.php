@@ -12,11 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (! getenv('VERCEL')) {
-            return;
+        // Если мы на Vercel, применяем его настройки, если нет — просто идем дальше
+        if (getenv('VERCEL')) {
+            $this->applyVercelDefaults();
         }
-
-        $this->applyVercelDefaults();
     }
 
     private function applyVercelDefaults(): void
@@ -40,15 +39,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (! getenv('VERCEL')) {
-            return;
+        // На хостинге REG.RU принудительно включаем HTTPS для ссылок, если сайт работает по SSL
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
         }
 
-        $appUrl = rtrim((string) env('APP_URL', ''), '/');
-        if ($appUrl !== '') {
-            URL::forceRootUrl($appUrl);
+        // Если это Vercel, подтягиваем его URL
+        if (getenv('VERCEL')) {
+            $appUrl = rtrim((string) env('APP_URL', ''), '/');
+            if ($appUrl !== '') {
+                URL::forceRootUrl($appUrl);
+            }
         }
-
-        URL::forceScheme('https');
     }
 }

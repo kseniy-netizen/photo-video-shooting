@@ -24,13 +24,15 @@ class SecurityHeaders
         if (! app()->environment('local')) {
             $response->headers->set(
                 'Content-Security-Policy',
-                "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; "
+                "default-src 'self'; base-uri 'self'; form-action 'self'; "
+                ."frame-ancestors 'self' kinescope.io *.kinescope.io; "
+                ."frame-src 'self' kinescope.io *.kinescope.io; "
                 ."img-src 'self' data: blob: https:; "
                 ."font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com; "
                 ."style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com; "
                 ."style-src-elem 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com; "
                 ."script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline'; "
-                ."connect-src 'self' https://fonts.bunny.net https://fonts.googleapis.com; "
+                ."connect-src 'self' https://fonts.bunny.net https://fonts.googleapis.com https://kinescope.io; "
                 ."object-src 'none'"
             );
 
